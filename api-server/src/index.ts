@@ -4,12 +4,16 @@ import express, {Request, Response} from 'express';
 import hotelRoutes from './routes/hotelRoutes';
 
 export const app = express();
-const PORT = 3000; 
+const PORT = 5000; 
 
 app.use(express.json());
 app.use(express.urlencoded({extended : true}))
-app.use(cors())
 app.use(helmet())
+app.use(cors({
+  origin: 'http://localhost:3000',  // Allow requests from this frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+}));
 
 app.use('/', hotelRoutes);
 
@@ -21,4 +25,4 @@ app.get('/', (req: Request, res: Response) => {
 //   console.log(`Server running at http://localhost:${PORT}`);
 // });
 
-// export default app;
+export default app;
